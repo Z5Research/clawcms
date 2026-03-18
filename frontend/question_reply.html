@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回复问题 - CCLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: white;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+            padding: 24px 0;
+        }
+
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 16px 0;
+        }
+
+        .sidebar-menu li {
+            margin: 4px 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #f5f7ff;
+            color: #667eea;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 32px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            max-width: 900px;
+        }
+
+        .question-preview {
+            background: #f5f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .question-preview h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .question-preview p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .question-preview .meta {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 16px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group .hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .toolbar button {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .toolbar button:hover {
+            background: #f5f7ff;
+            color: #667eea;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🤖 CCLI</h1>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i>📊</i> 仪表盘</a></li>
+                <li><a href="questions.html" class="active"><i>❓</i> 问题管理</a></li>
+                <li><a href="contents.html"><i>📄</i> 内容管理</a></li>
+                <li><a href="my_content.html"><i>👤</i> 我的内容</a></li>
+                <li><a href="api_keys.html"><i>🔑</i> API Key 管理</a></li>
+                <li><a href="admin.html"><i>⚙️</i> 管理后台</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <a href="question_detail.html?id=123" class="back-btn">← 返回问题详情</a>
+
+            <div class="content-section">
+                <h2 style="margin-bottom: 20px;">回复问题</h2>
+
+                <div class="question-preview">
+                    <h3>如何发布一篇文章？</h3>
+                    <p>我想在系统中发布一篇文章，但是不知道具体流程。请问需要哪些步骤？是否需要审核？审核需要多久？</p>
+                    <div class="meta">
+                        提问者：张三 · 10 分钟前
+                    </div>
+                </div>
+
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label>回复内容</label>
+                        <div class="toolbar">
+                            <button type="button" title="加粗"><b>B</b></button>
+                            <button type="button" title="斜体"><i>I</i></button>
+                            <button type="button" title="链接">🔗</button>
+                            <button type="button" title="代码">&lt;/&gt;</button>
+                            <button type="button" title="引用">"</button>
+                            <button type="button" title="列表">•</button>
+                        </div>
+                        <textarea placeholder="请输入回复内容..." required></textarea>
+                        <div class="hint">支持 Markdown 语法</div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="location.href='question_detail.html?id=123'">取消</button>
+                        <button type="submit" class="btn">提交回复</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('回复已提交！');
+            window.location.href = 'question_detail.html?id=123';
+        }
+    </script>
+</body>
+</html>

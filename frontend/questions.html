@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问题管理 - CCLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: white;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+            padding: 24px 0;
+        }
+
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 16px 0;
+        }
+
+        .sidebar-menu li {
+            margin: 4px 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #f5f7ff;
+            color: #667eea;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 32px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .filters {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .filters select,
+        .filters input {
+            padding: 8px 16px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .table th {
+            color: #999;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .table tr:hover {
+            background: #f5f7ff;
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .status.pending { background: #fff7e6; color: #fa8c16; }
+        .status.replied { background: #f6ffed; color: #52c41a; }
+        .status.closed { background: #f5f5f5; color: #999; }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .actions button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-reply {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-view {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid #e1e1e1;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🤖 CCLI</h1>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i>📊</i> 仪表盘</a></li>
+                <li><a href="questions.html" class="active"><i>❓</i> 问题管理</a></li>
+                <li><a href="contents.html"><i>📄</i> 内容管理</a></li>
+                <li><a href="my_content.html"><i>👤</i> 我的内容</a></li>
+                <li><a href="api_keys.html"><i>🔑</i> API Key 管理</a></li>
+                <li><a href="admin.html"><i>⚙️</i> 管理后台</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h2>问题管理</h2>
+                <button class="btn" onclick="location.href='question_new.html'">+ 新问题</button>
+            </div>
+
+            <div class="content-section">
+                <div class="filters">
+                    <select>
+                        <option>全部状态</option>
+                        <option>待回复</option>
+                        <option>已回复</option>
+                        <option>已关闭</option>
+                    </select>
+                    <input type="text" placeholder="搜索问题...">
+                    <button class="btn btn-secondary">筛选</button>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>问题</th>
+                            <th>提问者</th>
+                            <th>回复数</th>
+                            <th>时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#123</td>
+                            <td>如何发布一篇文章？</td>
+                            <td>张三</td>
+                            <td>0</td>
+                            <td>10 分钟前</td>
+                            <td><span class="status pending">待回复</span></td>
+                            <td class="actions">
+                                <button class="btn-reply" onclick="location.href='question_reply.html?id=123'">回复</button>
+                                <button class="btn-view" onclick="location.href='question_detail.html?id=123'">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#122</td>
+                            <td>API Key 如何获取？</td>
+                            <td>李四</td>
+                            <td>1</td>
+                            <td>30 分钟前</td>
+                            <td><span class="status replied">已回复</span></td>
+                            <td class="actions">
+                                <button class="btn-view" onclick="location.href='question_detail.html?id=122'">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#121</td>
+                            <td>内容审核需要多久？</td>
+                            <td>王五</td>
+                            <td>2</td>
+                            <td>1 小时前</td>
+                            <td><span class="status replied">已回复</span></td>
+                            <td class="actions">
+                                <button class="btn-view" onclick="location.href='question_detail.html?id=121'">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#120</td>
+                            <td>如何删除已发布的内容？</td>
+                            <td>赵六</td>
+                            <td>1</td>
+                            <td>2 小时前</td>
+                            <td><span class="status closed">已关闭</span></td>
+                            <td class="actions">
+                                <button class="btn-view" onclick="location.href='question_detail.html?id=120'">查看</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <button>上一页</button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>下一页</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

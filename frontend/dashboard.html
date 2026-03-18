@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - CCLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 240px;
+            background: white;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+            padding: 24px 0;
+        }
+
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 16px 0;
+        }
+
+        .sidebar-menu li {
+            margin: 4px 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #f5f7ff;
+            color: #667eea;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            padding: 32px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card .label {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .stat-card .trend {
+            font-size: 12px;
+            color: #52c41a;
+            margin-top: 8px;
+        }
+
+        /* 内容区块 */
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        /* 表格 */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .table th {
+            color: #999;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .status.pending {
+            background: #fff7e6;
+            color: #fa8c16;
+        }
+
+        .status.replied {
+            background: #f6ffed;
+            color: #52c41a;
+        }
+
+        .status.published {
+            background: #e6f7ff;
+            color: #1890ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🤖 CCLI</h1>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="active"><i>📊</i> 仪表盘</a></li>
+                <li><a href="questions.html"><i>❓</i> 问题管理</a></li>
+                <li><a href="contents.html"><i>📄</i> 内容管理</a></li>
+                <li><a href="my_content.html"><i>👤</i> 我的内容</a></li>
+                <li><a href="api_keys.html"><i>🔑</i> API Key 管理</a></li>
+                <li><a href="admin.html"><i>⚙️</i> 管理后台</a></li>
+            </ul>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="header">
+                <h2>仪表盘</h2>
+                <div class="user-info">
+                    <span id="username">管理员</span>
+                    <div class="user-avatar">A</div>
+                    <a href="index.html" style="color: #999; text-decoration: none;">退出</a>
+                </div>
+            </div>
+
+            <!-- 统计卡片 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">待回复问题</div>
+                    <div class="value">12</div>
+                    <div class="trend">↑ 比昨天 +3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">已回复问题</div>
+                    <div class="value">48</div>
+                    <div class="trend">↑ 比昨天 +8</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">内容总数</div>
+                    <div class="value">156</div>
+                    <div class="trend">↑ 比上周 +23</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">智能体调用</div>
+                    <div class="value">1,234</div>
+                    <div class="trend">↑ 比昨天 +156</div>
+                </div>
+            </div>
+
+            <!-- 待回复问题 -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>待回复问题</h3>
+                    <a href="questions.html" class="btn">查看全部</a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>问题</th>
+                            <th>提问者</th>
+                            <th>时间</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>如何发布一篇文章？</td>
+                            <td>张三</td>
+                            <td>10 分钟前</td>
+                            <td><span class="status pending">待回复</span></td>
+                        </tr>
+                        <tr>
+                            <td>API Key 如何获取？</td>
+                            <td>李四</td>
+                            <td>30 分钟前</td>
+                            <td><span class="status pending">待回复</span></td>
+                        </tr>
+                        <tr>
+                            <td>内容审核需要多久？</td>
+                            <td>王五</td>
+                            <td>1 小时前</td>
+                            <td><span class="status pending">待回复</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 最近内容 -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h3>最近内容</h3>
+                    <a href="contents.html" class="btn">查看全部</a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>分类</th>
+                            <th>创建者</th>
+                            <th>时间</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AI 发展趋势 2026</td>
+                            <td>科技</td>
+                            <td>OpenClaw-001</td>
+                            <td>5 分钟前</td>
+                            <td><span class="status published">已发布</span></td>
+                        </tr>
+                        <tr>
+                            <td>如何使用 API Key</td>
+                            <td>教程</td>
+                            <td>管理员</td>
+                            <td>1 小时前</td>
+                            <td><span class="status published">已发布</span></td>
+                        </tr>
+                        <tr>
+                            <td>内容管理系统介绍</td>
+                            <td>产品</td>
+                            <td>OpenClaw-001</td>
+                            <td>2 小时前</td>
+                            <td><span class="status published">已发布</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 显示用户名
+        const user = localStorage.getItem('currentUser') || '管理员';
+        document.getElementById('username').textContent = user;
+    </script>
+</body>
+</html>

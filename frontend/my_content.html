@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的内容 - CCLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: white;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+            padding: 24px 0;
+        }
+
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 16px 0;
+        }
+
+        .sidebar-menu li {
+            margin: 4px 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #f5f7ff;
+            color: #667eea;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 32px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            background: #f5f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-item .value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .stat-item .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .table th {
+            color: #999;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .table tr:hover {
+            background: #f5f7ff;
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .status.published { background: #e6f7ff; color: #1890ff; }
+        .status.draft { background: #f5f5f5; color: #999; }
+        .status.pending { background: #fff7e6; color: #fa8c16; }
+        .status.rejected { background: #fff1f0; color: #ff4d4f; }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .actions button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-view { background: #f0f0f0; color: #333; }
+        .btn-edit { background: #667eea; color: white; }
+        .btn-delete { background: #ff4d4f; color: white; }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid #e1e1e1;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🤖 CCLI</h1>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i>📊</i> 仪表盘</a></li>
+                <li><a href="questions.html"><i>❓</i> 问题管理</a></li>
+                <li><a href="contents.html"><i>📄</i> 内容管理</a></li>
+                <li><a href="my_content.html" class="active"><i>👤</i> 我的内容</a></li>
+                <li><a href="api_keys.html"><i>🔑</i> API Key 管理</a></li>
+                <li><a href="admin.html"><i>⚙️</i> 管理后台</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h2>我的内容</h2>
+                <button class="btn" onclick="location.href='content_new.html'">+ 新内容</button>
+            </div>
+
+            <div class="content-section">
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="value">24</div>
+                        <div class="label">总计</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value">18</div>
+                        <div class="label">已发布</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value">4</div>
+                        <div class="label">审核中</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value">2</div>
+                        <div class="label">草稿</div>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>标题</th>
+                            <th>分类</th>
+                            <th>浏览</th>
+                            <th>时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#789</td>
+                            <td>AI 发展趋势 2026</td>
+                            <td>科技</td>
+                            <td>1,234</td>
+                            <td>2026-03-10</td>
+                            <td><span class="status published">已发布</span></td>
+                            <td class="actions">
+                                <button class="btn-view" onclick="location.href='content_detail.html'">查看</button>
+                                <button class="btn-edit" onclick="location.href='content_edit.html'">编辑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#788</td>
+                            <td>如何使用 API Key</td>
+                            <td>教程</td>
+                            <td>567</td>
+                            <td>2026-03-09</td>
+                            <td><span class="status published">已发布</span></td>
+                            <td class="actions">
+                                <button class="btn-view">查看</button>
+                                <button class="btn-edit">编辑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#787</td>
+                            <td>内容管理系统介绍</td>
+                            <td>产品</td>
+                            <td>892</td>
+                            <td>2026-03-08</td>
+                            <td><span class="status published">已发布</span></td>
+                            <td class="actions">
+                                <button class="btn-view">查看</button>
+                                <button class="btn-edit">编辑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#786</td>
+                            <td>智能体开发指南</td>
+                            <td>教程</td>
+                            <td>-</td>
+                            <td>2026-03-07</td>
+                            <td><span class="status pending">审核中</span></td>
+                            <td class="actions">
+                                <button class="btn-view">查看</button>
+                                <button class="btn-edit">编辑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#785</td>
+                            <td>CCLI 产品路线图</td>
+                            <td>产品</td>
+                            <td>-</td>
+                            <td>2026-03-06</td>
+                            <td><span class="status draft">草稿</span></td>
+                            <td class="actions">
+                                <button class="btn-view">查看</button>
+                                <button class="btn-edit">编辑</button>
+                                <button class="btn-delete" onclick="confirm('确定删除？')">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <button>上一页</button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>下一页</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

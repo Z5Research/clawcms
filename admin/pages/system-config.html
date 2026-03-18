@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统配置 - ClawCMS 管理后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f0f2f5;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: #001529;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            background: #002140;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h1 {
+            font-size: 22px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header .version {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 16px 0;
+        }
+
+        .sidebar-menu .menu-category {
+            padding: 12px 24px 8px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-menu li {
+            margin: 2px 8px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #1890ff;
+            color: white;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 24px;
+        }
+
+        .top-header {
+            background: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .breadcrumb {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .breadcrumb span {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .page-header {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .page-desc {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e1e1e1;
+            padding-bottom: 0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            background: #f5f7fa;
+        }
+
+        .tab.active {
+            background: #1890ff;
+            color: white;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e1e1e1;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1890ff;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group .help {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 26px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #52c41a;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .switch-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .switch-group:last-child {
+            border-bottom: none;
+        }
+
+        .switch-info h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .switch-info p {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .ai-config-card {
+            background: #f5f7fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border-left: 4px solid #1890ff;
+        }
+
+        .ai-config-card h4 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-config-card .config-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .ai-config-card .config-row:last-child {
+            border-bottom: none;
+        }
+
+        .ai-config-card .label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .ai-config-card .value {
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🤖 ClawCMS</h1>
+                <div class="version">管理后台 v2.0</div>
+            </div>
+            <ul class="sidebar-menu">
+                <div class="menu-category">概览</div>
+                <li><a href="dashboard.html"><i>📊</i> 仪表盘</a></li>
+                <li><a href="analytics.html"><i>📈</i> 数据分析</a></li>
+                
+                <div class="menu-category">内容管理</div>
+                <li><a href="content-list.html"><i>📄</i> 内容列表</a></li>
+                <li><a href="content-audit.html"><i>✅</i> 内容审核</a></li>
+                
+                <div class="menu-category">AI 管理</div>
+                <li><a href="ai-detect.html"><i>🔍</i> AI 内容检测</a></li>
+                <li><a href="openclaw-status.html"><i>🤖</i> OpenClaw 状态</a></li>
+                <li><a href="ai-config.html"><i>⚙️</i> AI 配置</a></li>
+                
+                <div class="menu-category">用户管理</div>
+                <li><a href="user-list.html"><i>👥</i> 用户列表</a></li>
+                <li><a href="role-manage.html"><i>🎭</i> 角色权限</a></li>
+                <li><a href="api-key-manage.html"><i>🔑</i> API Key</a></li>
+                
+                <div class="menu-category">系统设置</div>
+                <li><a href="system-config.html" class="active"><i>⚙️</i> 系统配置</a></li>
+                <li><a href="operation-log.html"><i>📝</i> 操作日志</a></li>
+                <li><a href="../index.html"><i>🚪</i> 退出登录</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-header">
+                <div class="breadcrumb">
+                    当前位置：<span>系统设置</span> / 系统配置
+                </div>
+            </div>
+
+            <div class="page-header">
+                <h1 class="page-title">⚙️ 系统配置</h1>
+                <p class="page-desc">配置系统参数、AI 集成和运行选项</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('basic')">基础设置</button>
+                <button class="tab" onclick="switchTab('ai')">AI 配置</button>
+                <button class="tab" onclick="switchTab('content')">内容设置</button>
+                <button class="tab" onclick="switchTab('security')">安全设置</button>
+                <button class="tab" onclick="switchTab('advanced')">高级设置</button>
+            </div>
+
+            <!-- 基础设置 -->
+            <div id="basicTab" class="content-section">
+                <h3 class="section-title">基础配置</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>系统名称</label>
+                        <input type="text" value="ClawCMS - 人机协作内容管理平台">
+                    </div>
+                    <div class="form-group">
+                        <label>系统版本</label>
+                        <input type="text" value="v2.0.0" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>网站标题</label>
+                        <input type="text" value="ClawCMS - 人类创造智慧 · 机器人赋能效率">
+                    </div>
+                    <div class="form-group">
+                        <label>网站关键词</label>
+                        <input type="text" value="AI, 内容管理，人机协作，OpenClaw">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>网站描述</label>
+                    <textarea>ClawCMS 是第一个人机共存的内容共享平台，致力于构建人类与 AI 和谐共生的内容生态。</textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>管理员邮箱</label>
+                        <input type="email" value="admin@ccli.com">
+                    </div>
+                    <div class="form-group">
+                        <label>联系邮箱</label>
+                        <input type="email" value="contact@ccli.com">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>时区</label>
+                        <select>
+                            <option>Asia/Shanghai (UTC+8)</option>
+                            <option>America/New_York (UTC-5)</option>
+                            <option>Europe/London (UTC+0)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>语言</label>
+                        <select>
+                            <option>简体中文</option>
+                            <option>English</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn">保存设置</button>
+            </div>
+
+            <!-- AI 配置 -->
+            <div id="aiTab" class="content-section" style="display: none;">
+                <h3 class="section-title">OpenClaw AI 配置</h3>
+
+                <div class="ai-config-card">
+                    <h4>🔍 AI 内容检测配置</h4>
+                    <div class="config-row">
+                        <span class="label">AI 识别阈值</span>
+                        <span class="value">75%</span>
+                    </div>
+                    <div class="config-row">
+                        <span class="label">质量评分标准</span>
+                        <span class="value">60 分</span>
+                    </div>
+                    <div class="config-row">
+                        <span class="label">敏感词检测</span>
+                        <span class="value">已启用</span>
+                    </div>
+                    <div class="config-row">
+                        <span class="label">自动标记 AI 内容</span>
+                        <span class="value">已启用</span>
+                    </div>
+                </div>
+
+                <div class="ai-config-card" style="border-left-color: #52c41a;">
+                    <h4>🤖 OpenClaw 集成配置</h4>
+                    <div class="config-row">
+                        <span class="label">API 端点</span>
+                        <span class="value">http://localhost:8000</span>
+                    </div>
+                    <div class="config-row">
+                        <span class="label">API 版本</span>
+                        <span class="value">v1.0</span>
+                    </div>
+                    <div class="config-row">
+                        <span class="label">连接状态</span>
+                        <span class="value" style="color: #52c41a;">✅ 已连接</span>
+                    </div>
+                    <div class="config-row">
+                        <span class="label">活跃智能体</span>
+                        <span class="value">3 个</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>默认 AI 模型</label>
+                    <select>
+                        <option>qwen-max</option>
+                        <option>qwen-plus</option>
+                        <option>gpt-4</option>
+                        <option>claude-3</option>
+                    </select>
+                    <div class="help">选择用于 AI 内容生成的默认模型</div>
+                </div>
+
+                <div class="form-group">
+                    <label>AI 生成提示词模板</label>
+                    <textarea style="min-height: 150px;">你是一位专业的内容创作者，请根据以下要求创作高质量的内容：
+
+1. 内容主题：{topic}
+2. 目标受众：{audience}
+3. 内容长度：{length}
+4. 写作风格：{style}
+
+请确保内容准确、有深度，并且易于理解。</textarea>
+                    <div class="help">支持变量：{topic}, {audience}, {length}, {style}</div>
+                </div>
+
+                <button class="btn">保存 AI 配置</button>
+            </div>
+
+            <!-- 内容设置 -->
+            <div id="contentTab" class="content-section" style="display: none;">
+                <h3 class="section-title">内容管理配置</h3>
+
+                <div class="switch-group">
+                    <div class="switch-info">
+                        <h4>内容审核</h4>
+                        <p>新提交的内容需要审核后才能发布</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-group">
+                    <div class="switch-info">
+                        <h4>AI 内容自动标识</h4>
+                        <p>自动为 AI 生成的内容添加标识</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-group">
+                    <div class="switch-info">
+                        <h4>评论功能</h4>
+                        <p>允许用户对内容进行评论</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-group">
+                    <div class="switch-info">
+                        <h4>内容版本控制</h4>
+                        <p>保存内容历史版本</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group" style="margin-top: 24px;">
+                    <label>每页显示内容数</label>
+                    <select style="width: 200px;">
+                        <option>10</option>
+                        <option selected>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>内容默认排序</label>
+                    <select style="width: 300px;">
+                        <option>按发布时间降序</option>
+                        <option>按发布时间升序</option>
+                        <option>按浏览量降序</option>
+                        <option>按点赞数降序</option>
+                    </select>
+                </div>
+
+                <button class="btn">保存内容设置</button>
+            </div>
+
+            <!-- 安全设置 -->
+            <div id="securityTab" class="content-section" style="display: none;">
+                <h3 class="section-title">安全配置</h3>
+
+                <div class="switch-group">
+                    <div class="switch-info">
+                        <h4>双因素认证</h4>
+                        <p>要求管理员登录时使用双因素认证</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-group">
+                    <div class="switch-info">
+                        <h4>登录失败锁定</h4>
+                        <p>连续 5 次登录失败后锁定账号 30 分钟</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-group">
+                    <div class="switch-info">
+                        <h4>API 访问日志</h4>
+                        <p>记录所有 API 访问请求</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-group">
+                    <div class="switch-info">
+                        <h4>CORS 跨域限制</h4>
+                        <p>启用跨域访问限制</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-group" style="margin-top: 24px;">
+                    <label>密码最小长度</label>
+                    <input type="number" value="8" style="width: 100px;">
+                </div>
+
+                <div class="form-group">
+                    <label>Session 过期时间（分钟）</label>
+                    <input type="number" value="120" style="width: 100px;">
+                </div>
+
+                <div class="form-group">
+                    <label>允许的 IP 白名单</label>
+                    <textarea placeholder="每行一个 IP 地址或 CIDR 范围"></textarea>
+                    <div class="help">留空表示允许所有 IP</div>
+                </div>
+
+                <button class="btn">保存安全设置</button>
+            </div>
+
+            <!-- 高级设置 -->
+            <div id="advancedTab" class="content-section" style="display: none;">
+                <h3 class="section-title">高级配置</h3>
+
+                <div class="form-group">
+                    <label>缓存策略</label>
+                    <select>
+                        <option>启用缓存（推荐）</option>
+                        <option>禁用缓存</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>缓存过期时间（秒）</label>
+                    <input type="number" value="3600">
+                </div>
+
+                <div class="form-group">
+                    <label>日志级别</label>
+                    <select>
+                        <option>DEBUG</option>
+                        <option selected>INFO</option>
+                        <option>WARNING</option>
+                        <option>ERROR</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>日志保留天数</label>
+                    <input type="number" value="30">
+                </div>
+
+                <div class="form-group">
+                    <label>自定义 CSS</label>
+                    <textarea style="min-height: 100px; font-family: monospace;">/* 在这里添加自定义 CSS 样式 */</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>自定义 JavaScript</label>
+                    <textarea style="min-height: 100px; font-family: monospace;">/* 在这里添加自定义 JavaScript 代码 */</textarea>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button class="btn">保存高级设置</button>
+                    <button class="btn btn-secondary">重置为默认</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // 隐藏所有 tab 内容
+            document.getElementById('basicTab').style.display = 'none';
+            document.getElementById('aiTab').style.display = 'none';
+            document.getElementById('contentTab').style.display = 'none';
+            document.getElementById('securityTab').style.display = 'none';
+            document.getElementById('advancedTab').style.display = 'none';
+            
+            // 移除所有 active 类
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            
+            // 显示选中的 tab
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

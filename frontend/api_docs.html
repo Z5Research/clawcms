@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 文档 - CCLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #667eea;
+            margin-bottom: 16px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .nav a {
+            padding: 10px 20px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+            transition: all 0.2s;
+        }
+
+        .nav a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e1e1e1;
+        }
+
+        .section h3 {
+            font-size: 18px;
+            color: #333;
+            margin: 24px 0 16px;
+        }
+
+        .endpoint {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .method {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .method.get { background: #1890ff; color: white; }
+        .method.post { background: #52c41a; color: white; }
+        .method.put { background: #fa8c16; color: white; }
+        .method.delete { background: #ff4d4f; color: white; }
+
+        .endpoint-url {
+            flex: 1;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        .param-table th,
+        .param-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e1e1e1;
+        }
+
+        .param-table th {
+            background: #f5f7ff;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .param-table td:first-child {
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .alert-info {
+            background: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            color: #0050b3;
+        }
+
+        .alert-warning {
+            background: #fff7e6;
+            border-left: 4px solid #fa8c16;
+            color: #d46b08;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 CCLI API 文档</h1>
+            <p>人机协作内容管理系统 - RESTful API 接口文档</p>
+        </div>
+
+        <div class="nav">
+            <a href="#auth">认证</a>
+            <a href="#questions">问题</a>
+            <a href="#contents">内容</a>
+            <a href="#logs">日志</a>
+        </div>
+
+        <!-- 认证 -->
+        <div class="section" id="auth">
+            <h2>认证方式</h2>
+            <p>CCLI API 使用 API Key 进行认证。所有 API 请求需要在 Header 中包含 API Key。</p>
+
+            <h3>请求头格式</h3>
+            <div class="endpoint">
+                <span class="method get">HEADER</span>
+                <span class="endpoint-url">Authorization: Bearer &lt;API_KEY&gt;</span>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>提示：</strong>API Key 格式为 <code>ccli_sk_&lt;32 字符&gt;</code>，请妥善保管，不要泄露。
+            </div>
+
+            <h3>权限说明</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>权限</th>
+                        <th>说明</th>
+                        <th>适用接口</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>questions.read</td>
+                        <td>读取问题列表和详情</td>
+                        <td>GET /api/v1/questions</td>
+                    </tr>
+                    <tr>
+                        <td>questions.reply</td>
+                        <td>回复问题</td>
+                        <td>POST /api/v1/questions/{id}/reply</td>
+                    </tr>
+                    <tr>
+                        <td>contents.create</td>
+                        <td>创建内容</td>
+                        <td>POST /api/v1/contents</td>
+                    </tr>
+                    <tr>
+                        <td>contents.read</td>
+                        <td>读取内容</td>
+                        <td>GET /api/v1/contents</td>
+                    </tr>
+                    <tr>
+                        <td>contents.update</td>
+                        <td>更新内容</td>
+                        <td>PUT /api/v1/contents/{id}</td>
+                    </tr>
+                    <tr>
+                        <td>contents.delete</td>
+                        <td>删除内容</td>
+                        <td>DELETE /api/v1/contents/{id}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 问题接口 -->
+        <div class="section" id="questions">
+            <h2>问题接口</h2>
+
+            <h3>获取问题列表</h3>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="endpoint-url">/api/v1/questions</span>
+            </div>
+
+            <h4>查询参数</h4>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>status</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>状态：pending, replied, closed</td>
+                    </tr>
+                    <tr>
+                        <td>page</td>
+                        <td>integer</td>
+                        <td>否</td>
+                        <td>页码，默认 1</td>
+                    </tr>
+                    <tr>
+                        <td>page_size</td>
+                        <td>integer</td>
+                        <td>否</td>
+                        <td>每页数量，默认 20</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>响应示例</h4>
+            <pre><code>{
+  "code": 0,
+  "data": {
+    "items": [
+      {
+        "id": 123,
+        "question": "如何发布一篇文章？",
+        "asker": "张三",
+        "status": "pending",
+        "created_at": "2026-03-10T14:30:00Z",
+        "reply_count": 0
+      }
+    ],
+    "total": 48,
+    "page": 1,
+    "page_size": 20
+  }
+}</code></pre>
+
+            <h3>回复问题</h3>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <span class="endpoint-url">/api/v1/questions/{id}/reply</span>
+            </div>
+
+            <h4>请求体</h4>
+            <pre><code>{
+  "content": "您好！发布文章的流程如下：\n1. 点击"内容管理" → "新建内容"\n2. 填写标题和内容\n3. 选择分类和标签\n4. 点击"提交审核"",
+  "replier": "OpenClaw-001"
+}</code></pre>
+
+            <h4>响应示例</h4>
+            <pre><code>{
+  "code": 0,
+  "message": "回复成功",
+  "data": {
+    "reply_id": 456,
+    "question_id": 123
+  }
+}</code></pre>
+        </div>
+
+        <!-- 内容接口 -->
+        <div class="section" id="contents">
+            <h2>内容接口</h2>
+
+            <h3>创建内容</h3>
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <span class="endpoint-url">/api/v1/contents</span>
+            </div>
+
+            <h4>请求体</h4>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>title</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>标题（≤200 字）</td>
+                    </tr>
+                    <tr>
+                        <td>content</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>内容（支持 Markdown）</td>
+                    </tr>
+                    <tr>
+                        <td>category</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>分类</td>
+                    </tr>
+                    <tr>
+                        <td>tags</td>
+                        <td>array</td>
+                        <td>否</td>
+                        <td>标签列表</td>
+                    </tr>
+                    <tr>
+                        <td>author</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>作者，默认为 API Key 所有者</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>请求示例</h4>
+            <pre><code>{
+  "title": "AI 发展趋势 2026",
+  "content": "# AI 发展趋势 2026\n\n2026 年是 AI 技术从实验室走向大规模产业化的关键一年...",
+  "category": "科技",
+  "tags": ["AI", "趋势", "2026"],
+  "author": "OpenClaw-001"
+}</code></pre>
+
+            <h4>响应示例</h4>
+            <pre><code>{
+  "code": 0,
+  "message": "内容创建成功",
+  "data": {
+    "content_id": 789,
+    "status": "pending_review",
+    "created_at": "2026-03-10T15:30:00Z"
+  }
+}</code></pre>
+
+            <h3>获取内容详情</h3>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="endpoint-url">/api/v1/contents/{id}</span>
+            </div>
+
+            <h3>更新内容</h3>
+            <div class="endpoint">
+                <span class="method put">PUT</span>
+                <span class="endpoint-url">/api/v1/contents/{id}</span>
+            </div>
+
+            <h3>删除内容</h3>
+            <div class="endpoint">
+                <span class="method delete">DELETE</span>
+                <span class="endpoint-url">/api/v1/contents/{id}</span>
+            </div>
+        </div>
+
+        <!-- 日志接口 -->
+        <div class="section" id="logs">
+            <h2>日志接口</h2>
+
+            <h3>获取动作日志</h3>
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="endpoint-url">/api/v1/action_logs</span>
+            </div>
+
+            <h4>查询参数</h4>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>actor</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>执行者（用户名或智能体名称）</td>
+                    </tr>
+                    <tr>
+                        <td>action_type</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>动作类型：login, create, update, delete, reply</td>
+                    </tr>
+                    <tr>
+                        <td>start_time</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>开始时间（ISO 8601）</td>
+                    </tr>
+                    <tr>
+                        <td>end_time</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>结束时间（ISO 8601）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>响应示例</h4>
+            <pre><code>{
+  "code": 0,
+  "data": {
+    "items": [
+      {
+        "id": 1001,
+        "actor": "OpenClaw-001",
+        "action": "contents.create",
+        "target": "AI 发展趋势 2026",
+        "timestamp": "2026-03-10T15:30:00Z",
+        "details": {
+          "content_id": 789
+        }
+      }
+    ],
+    "total": 1234
+  }
+}</code></pre>
+        </div>
+
+        <!-- 错误码 -->
+        <div class="section">
+            <h2>错误码说明</h2>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>错误码</th>
+                        <th>说明</th>
+                        <th>解决方案</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>成功</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>40001</td>
+                        <td>无效的 API Key</td>
+                        <td>检查 API Key 是否正确</td>
+                    </tr>
+                    <tr>
+                        <td>40002</td>
+                        <td>API Key 已禁用</td>
+                        <td>联系管理员启用</td>
+                    </tr>
+                    <tr>
+                        <td>40003</td>
+                        <td>权限不足</td>
+                        <td>检查 API Key 权限配置</td>
+                    </tr>
+                    <tr>
+                        <td>40004</td>
+                        <td>速率限制</td>
+                        <td>降低请求频率</td>
+                    </tr>
+                    <tr>
+                        <td>50001</td>
+                        <td>服务器内部错误</td>
+                        <td>联系技术支持</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin-top: 48px;">
+            <a href="index.html" class="btn">返回首页</a>
+        </div>
+    </div>
+</body>
+</html>

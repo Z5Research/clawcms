@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布活动 - ClawCMS</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #333; }
+        .navbar { background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #667eea; text-decoration: none; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { color: #666; text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: #667eea; }
+        .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-block; }
+        .btn-outline { background: white; color: #667eea; border: 2px solid #667eea; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .page-header { margin-bottom: 32px; }
+        .page-header h1 { font-size: 32px; color: #333; margin-bottom: 8px; }
+        .page-header p { color: #666; font-size: 16px; }
+        .form-card { background: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .form-section { margin-bottom: 32px; }
+        .form-section h2 { font-size: 20px; color: #333; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0; }
+        .form-group { margin-bottom: 24px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #667eea; }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-group .hint { font-size: 13px; color: #999; margin-top: 6px; }
+        .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .checkbox-group { display: flex; gap: 24px; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; }
+        .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; }
+        .form-actions { display: flex; gap: 16px; justify-content: flex-end; padding-top: 32px; border-top: 2px solid #f0f0f0; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="home.html" class="logo"><div class="logo-icon">🤖</div>ClawCMS</a>
+        <div class="nav-links">
+            <a href="home.html">首页</a>
+            <a href="articles.html">文章</a>
+            <a href="community.html">社区</a>
+            <a href="events.html" class="active">活动</a>
+            <a href="supply.html">供需</a>
+            <a href="rankings.html">排行榜</a>
+            <a href="about.html">关于我们</a>
+        </div>
+        <div class="nav-actions">
+            <a href="prototype/index.html" class="btn btn-outline">登录</a>
+            <a href="prototype/register.html" class="btn btn-primary">注册</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>📅 发布活动</h1>
+            <p>创建线上或线下活动，邀请社区成员参与</p>
+        </div>
+
+        <form class="form-card" onsubmit="event.preventDefault(); alert('活动发布成功！等待审核后上线。');">
+            <div class="form-section">
+                <h2>基本信息</h2>
+                <div class="form-group">
+                    <label>活动标题 *</label>
+                    <input type="text" placeholder="例如：AI Agent 实战分享会 - 北京站" required>
+                    <div class="hint">不超过 50 个字</div>
+                </div>
+
+                <div class="form-group">
+                    <label>活动类型 *</label>
+                    <select required>
+                        <option value="">请选择活动类型</option>
+                        <option value="offline">线下沙龙</option>
+                        <option value="online">线上研讨会</option>
+                        <option value="workshop">工作坊</option>
+                        <option value="conference">会议</option>
+                        <option value="hackathon">黑客松</option>
+                        <option value="course">培训课程</option>
+                        <option value="competition">比赛</option>
+                        <option value="product_launch">产品发布</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>活动封面</label>
+                    <div style="border: 2px dashed #e1e1e1; border-radius: 8px; padding: 40px; text-align: center; color: #999; cursor: pointer;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📷</div>
+                        <div>点击上传或拖拽文件到此处</div>
+                        <div class="hint">支持 JPG、PNG 格式，建议尺寸 1200x630px</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>时间地点</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>开始时间 *</label>
+                        <input type="datetime-local" required>
+                    </div>
+                    <div class="form-group">
+                        <label>结束时间 *</label>
+                        <input type="datetime-local" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>活动形式 *</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="event_type"> 线上活动
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="event_type"> 线下活动
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>线上平台</label>
+                    <select>
+                        <option value="">请选择线上平台</option>
+                        <option value="tencent">腾讯会议</option>
+                        <option value="zoom">Zoom</option>
+                        <option value="bilibili">哔哩哔哩直播</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="other">其他（请在描述中说明）</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>线下地址</label>
+                    <input type="text" placeholder="详细地址，包括楼层和会议室">
+                    <div class="hint">线下活动请填写，线上活动可留空</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>活动详情</h2>
+                <div class="form-group">
+                    <label>活动介绍 *</label>
+                    <textarea placeholder="详细介绍活动内容、亮点、适合人群等..." required></textarea>
+                    <div class="hint">不少于 100 字</div>
+                </div>
+
+                <div class="form-group">
+                    <label>嘉宾信息</label>
+                    <textarea placeholder="嘉宾姓名、头衔、简介，每位嘉宾一行"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>活动议程</label>
+                    <textarea placeholder="时间安排和对应内容，例如：&#10;14:00-14:30 签到&#10;14:30-15:00 开场致辞"></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>报名设置</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>人数上限 *</label>
+                        <input type="number" placeholder="例如：50" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>报名截止时间</label>
+                        <input type="datetime-local">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>费用设置</label>
+                    <select>
+                        <option value="free">免费</option>
+                        <option value="paid">付费</option>
+                        <option value="vip">仅 VIP 可参加</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>报名审核</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox"> 需要审核报名者
+                        </label>
+                    </div>
+                    <div class="hint">开启后需手动通过报名申请</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>标签分类</h2>
+                <div class="form-group">
+                    <label>活动标签</label>
+                    <input type="text" placeholder="输入标签后按回车，最多 10 个">
+                    <div class="hint">例如：AI、人机协作、技术分享</div>
+                </div>
+
+                <div class="form-group">
+                    <label>目标受众</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox"> AI 开发者</label>
+                        <label class="checkbox-item"><input type="checkbox"> 产品经理</label>
+                        <label class="checkbox-item"><input type="checkbox"> 创业者</label>
+                        <label class="checkbox-item"><input type="checkbox"> 学生</label>
+                        <label class="checkbox-item"><input type="checkbox"> 企业代表</label>
+                        <label class="checkbox-item"><input type="checkbox"> 其他</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline" onclick="history.back()">取消</button>
+                <button type="submit" class="btn btn-primary">发布活动</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
