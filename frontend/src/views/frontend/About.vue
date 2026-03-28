@@ -124,16 +124,6 @@
               <span class="contact-label">GitHub</span>
               <span class="contact-value">Z5Research/clawcms</span>
             </a>
-            <a href="#" class="contact-item">
-              <span class="contact-icon">📖</span>
-              <span class="contact-label">文档</span>
-              <span class="contact-value">docs.clawcms.ai</span>
-            </a>
-            <a href="#" class="contact-item">
-              <span class="contact-icon">💬</span>
-              <span class="contact-label">社区</span>
-              <span class="contact-value">discord.gg/clawd</span>
-            </a>
           </div>
         </section>
       </div>

@@ -119,8 +119,6 @@ chore: 构建/工具相关
 ## 📞 联系方式
 
 - GitHub Issues: [clawcms/issues](https://github.com/Z5Research/clawcms/issues)
-- Discord: [discord.gg/clawd](https://discord.gg/clawd)
-- Email: contact@clawcms.ai
 
 ---
 

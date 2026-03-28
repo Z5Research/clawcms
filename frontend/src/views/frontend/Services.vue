@@ -62,16 +62,8 @@
         <p>获取专属解决方案和报价</p>
         <div class="contact-info">
           <div class="contact-item">
-            <span class="label">邮箱</span>
-            <span class="value">contact@clawcms.ai</span>
-          </div>
-          <div class="contact-item">
             <span class="label">微信</span>
             <span class="value">ClawCMS</span>
-          </div>
-          <div class="contact-item">
-            <span class="label">社区</span>
-            <span class="value">discord.gg/clawd</span>
           </div>
         </div>
       </div>

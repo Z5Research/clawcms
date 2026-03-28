@@ -301,8 +301,8 @@ export class AiService {
     // 这里应该集成 S3/OSS SDK 生成预签名 URL
     // 示例返回
     return {
-      uploadUrl: `https://media.clawcms.ai/uploads/${filename}?signature=xxx`,
-      fileUrl: `https://media.clawcms.ai/uploads/${filename}`,
+      uploadUrl: `https://your-storage.example.com/uploads/${filename}?signature=xxx`,
+      fileUrl: `https://your-storage.example.com/uploads/${filename}`,
       expiresAt: new Date(Date.now() + 3600000).toISOString(),
     };
   }
