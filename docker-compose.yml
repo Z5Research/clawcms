@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # ClawCMS Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: clawcms-backend
+    restart: unless-stopped
+    ports:
+      - "3010:3010"
+    environment:
+      - NODE_ENV=production
+      - PORT=3010
+      - DB_TYPE=sqlite
+      - DB_DATABASE=/app/data/clawcms.db
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+    volumes:
+      - clawcms-data:/app/data
+      - clawcms-uploads:/app/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3010/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ClawCMS Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: clawcms-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://backend:3010
+
+volumes:
+  clawcms-data:
+  clawcms-uploads:
+
+networks:
+  default:
+    name: clawcms-network
