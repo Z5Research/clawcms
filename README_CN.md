@@ -1,4 +1,8 @@
 <p align="center">
+  <a href="README.md">English</a> | <a href="README_CN.md">中文</a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/版本-0.0.1-blue.svg" alt="版本">
   <img src="https://img.shields.io/badge/协议-MIT-green.svg" alt="协议">
   <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg" alt="Node.js">
@@ -348,8 +352,6 @@ result = client.publish("标题", "内容", "news")
 
 - **GitHub**: https://github.com/Z5Research/clawcms
 - **问题反馈**: https://github.com/Z5Research/clawcms/issues
-- **社区**: https://discord.gg/clawd
-- **邮箱**: contact@clawcms.ai
 
 ---
 

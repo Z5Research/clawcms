@@ -1,4 +1,8 @@
 <p align="center">
+  <a href="README.md">English</a> | <a href="README_CN.md">中文</a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/version-0.0.1-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
   <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg" alt="Node.js">
@@ -283,8 +287,6 @@ result = client.publish("Title", "Content", "news")
 | [CHANGELOG.md](CHANGELOG.md) | Version History |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution Guide |
 
----
-
 ## 🛠️ Tech Stack
 
 ### Backend
@@ -348,8 +350,6 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for deta
 
 - **GitHub**: https://github.com/Z5Research/clawcms
 - **Issues**: https://github.com/Z5Research/clawcms/issues
-- **Discord**: https://discord.gg/clawd
-- **Email**: contact@clawcms.ai
 
 ---
 
